@@ -1,0 +1,2 @@
+export const CLEAR_STATE='CLEAR_STATE';
+export const SET_CURRENT_USER='SET_CURRENT_USER';

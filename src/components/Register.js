@@ -21,59 +21,44 @@ export default class Register extends Component {
          for(var name in apiData){
              formData.append(name,apiData[name])
          }
-         console.log("data",JSON.stringify(apiData));
+      //    console.log("data",JSON.stringify(apiData));
         
-        const setting={
-          method:"POST",
-          headers:{
-            Accept:"application/json",
-            'Content-Type':"application/json",
-            'X-APi-Key':'usf-user'
-          },
-          body:{"username":"1rekha1","password":"rekha1", "login_pin": "1111"}
-        };
-        try {
-          const fetchResponse = await fetch(`http://192.34.56.14/v1/registration/user`, setting);
-          const data = await fetchResponse.json();
-          return data;
-      } catch (e) {
-          return e;
-      }    
+      //   const setting={
+      //     method:"POST",
+      //     headers:{
+      //       Accept:"application/json",
+      //       'Content-Type':"application/json",
+      //       'X-APi-Key':'usf-user'
+      //     },
+      //     body:JSON.stringify({"username":this.state.username,"password":this.state.password, "login_pin": this.state.loginpin})
+      //   };
+      //   try {
+      //     const fetchResponse = await fetch(`http://192.34.56.14/v1/registration/user`, setting);
+      //     const data = await fetchResponse.json();
+      //     console.log("data",data)
+      // } catch (e) {
+      //     return e;
+      // }    
   
       
-        // const data=await fetch("http://192.34.56.14/v1/registration/user",{
-        //     method:"POST",
-        //     headers:{
-        //       'Content-Type': 'application/json', 'X-Api-Key': 'usf-user',
-        //       },
-        //     body:{"username":"rekha1","password":"rekha1", "login_pin": "1111"}
-        //     // body:formData
-        // });
-        // const myJson=await data.json()
-        // console.log("myJson",myJson);
-        // if(myJson.success){
-        //     this.state({message:myJson.message,verification:true})
-        // }else{
-        //    alert(myJson.message)   
-        // }
+        const data=await fetch("http://192.34.56.14/v1/registration/user",{
+            method:"POST",
+            headers:{
+              'Content-Type': 'application/json', 'X-Api-Key': 'usf-user',
+              },
+            body:JSON.stringify({"username":this.state.username,"password":this.state.password, "login_pin": this.state.loginpin})
+            // body:formData
+        });
+        const myJson=await data.json()
+        console.log("myJson",myJson);
+        if(myJson.success){
+            this.state({message:myJson.message,verification:true})
+        }else{
+           alert(myJson.message)   
+        }
     }
 
-    // fetch("http://192.34.56.14/v1/registration/user",{
-    //     method:"POST",
-    //     headers:{
-    //         Accept: 'application/json', 'Content-Type': 'application/json', 'X-Api-Key': 'usf-user',
-    //       },
-    //     // body:JSON.stringify(formData)
-    //     body:formData
-    // })
-    // .then((res)=>{
-    //     return res.json();
-    // })
-    // .then((data)=>{
-    //     console.log("Created",data);
-    // })
-    // }
-
+    
     handleSubmit=(e)=>{
         e.preventDefault();
         this.registerUser();

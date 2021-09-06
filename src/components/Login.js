@@ -1,41 +1,52 @@
 import React, { Component } from 'react'
 import Profile from './Profile'
-export default class Login extends Component {
+import {connect} from "react-redux"
+import { setAccessToken } from '../../store/actions/authActions';
+ class Login extends Component {
  state={
      username:"",
      password:"",
      message:"",
      verification:"",
      redirect:false,
- };
+ }
 
 
  async authenticate(){
      var formData=new FormData();
      var apiData={
          username:this.state.username,
-         password:this.state.password,
+         password:this.state.password
      };
      for(var name in apiData){
          formData.append(name,apiData[name])
      }
-     const myJson=await fetch("http://192.34.56.14/v1/login",{
+     const data=await fetch("http://192.34.56.14/v1/login",{
          method:"POST",
          headers:{
             Accept: 'application/json', 'Content-Type': 'application/json', 'X-Api-Key': 'usf-user',   
          },
-         body:formData
+         body:JSON.stringify({"username":this.state.username,"password":this.state.password, "login_pin": this.state.loginpin})
+           
      });
+     const myJson=await data.json()
      if("token" in myJson){
          console.log("myJsonData",myJson);
          this.setState({redirect:true});
          await localStorage.setItem("token",myJson.token)
+         //window.location="/app/roleDeatails"
+         this.props.setAccessToken({
+           token:myJson.token
+         })
      }else{
          alert(myJson.message)
      }
  }
  
-
+handleLoginSubmit=(e)=>{
+ e.preventDefault();
+ this.authenticate()
+}
  
  
  
@@ -53,7 +64,7 @@ export default class Login extends Component {
             <input
            onChange={(e) => {this.setState({ username: e.target.value })}}
               type="text"
-              value={username}
+             
               className="w-full border-2 border-gray-200 p-3 rounded outline-none focus:border-purple-500"
               
             />
@@ -63,7 +74,7 @@ export default class Login extends Component {
             <input
                onChange={(e) => {this.setState({ password: e.target.value })}}
               type="password"
-              value={password}
+              
               className="w-full border-2 border-gray-200 p-3 rounded outline-none focus:border-purple-500"
             />
           </div>
@@ -80,3 +91,9 @@ export default class Login extends Component {
         )
     }
 }
+const mapDispatchToProps=(dispatch)=>{
+  return{
+    setAccessToken:(token)=>dispatch(setAccessToken(token))
+  }
+}
+export default connect(null,mapDispatchToProps)(Login)
