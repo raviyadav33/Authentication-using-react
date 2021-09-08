@@ -16,11 +16,11 @@ export const valiadateToken=()=>async(dispatch)=>{
             dispatch(
                 setCurrentUser({
                     username:decode.username,
-                    role:role.decode,
+                   
                 })
             );
         }else{
-            window.location="/signin"
+            // window.location="/signin"
         }
 
     }

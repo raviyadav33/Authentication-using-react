@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
-import Profile from './Profile'
+import { Redirect } from 'react-router-dom'
 import {connect} from "react-redux"
-import { setAccessToken } from '../../store/actions/authActions';
+import {setAccessToken} from '../store/actions/authAction'
  class Login extends Component {
  state={
      username:"",
@@ -51,6 +51,11 @@ handleLoginSubmit=(e)=>{
  
  
     render() {
+      const {redirect}=this.state;
+      if(redirect) {
+        return <Redirect to="/profile"/>
+      }
+      
         return (
             <div>
         <div className="min-h-screen flex items-center justify-center bg-blue-400">
